@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DBD サバイバー ルーレット</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#111116;color:#fff;font-family:sans-serif;padding:14px 14px 120px}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+h1{font-size:1.25rem;padding-bottom:8px;border-bottom:1px solid #333}
+.box{background:#181820;border:1px solid #333;border-radius:10px;padding:14px}
+.left{display:flex;flex-direction:column;align-items:center}
+.info{font-size:.88rem;color:#aaa;margin-bottom:10px;width:100%;max-width:440px}
+.info strong{color:#fff;font-size:1.1rem}
+.window{position:relative;width:100%;max-width:440px;height:240px;background:#08080a;border:3px solid #444;border-radius:8px;overflow:hidden}
+.line{position:absolute;top:96px;left:0;right:0;height:48px;border-top:2px solid #e53e3e;border-bottom:2px solid #e53e3e;background:rgba(229,62,62,.16);z-index:2;pointer-events:none;transition:all .25s}
+.line.hit{border-color:#ffd700;background:linear-gradient(90deg,#9b1c1c,#742a2a);box-shadow:0 0 14px rgba(255,215,0,.5)}
+.reel{position:absolute;top:0;left:0;width:100%;z-index:3}
+.reel.done .slot{opacity:.38;transition:opacity .25s}
+.slot{height:48px;display:flex;align-items:center;font-size:1.08rem;font-weight:700;border-bottom:1px solid rgba(255,255,255,.06);padding:0 16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:font-size .22s,color .22s}
+.reel.done .slot.win{opacity:1;font-size:1.38rem;color:#fff;text-shadow:0 2px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;letter-spacing:.02em}
+.spin-btn{margin-top:14px;width:100%;max-width:440px;padding:12px;font-size:1.1rem;font-weight:700;color:#fff;background:#e53e3e;border:none;border-radius:8px;cursor:pointer}
+.spin-btn:disabled{background:#555;cursor:not-allowed}
+.opt{margin-top:10px;width:100%;max-width:440px;background:#22222c;border:1px solid #333;padding:9px 12px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-size:.85rem;font-weight:700}
+.opt input{width:17px;height:17px;accent-color:#e53e3e}
+.r-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.toggle-list-btn{background:#2a2a38;color:#fff;border:1px solid #444;padding:6px 12px;border-radius:6px;font-size:.85rem;font-weight:700;cursor:pointer}
+.sm-btn{background:#333;color:#fff;border:none;padding:4px 8px;border-radius:4px;font-size:.76rem;cursor:pointer}
+.roster-body{margin-top:12px;display:flex;flex-direction:column;gap:14px}
+.roster-body.hidden{display:none}
+.group-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #2b2b38;font-size:.84rem;font-weight:700}
+.group-head.male{color:#63b3ed}.group-head.female{color:#f687b3}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:4px}
+.chip{display:flex;align-items:center;gap:5px;background:#252532;border:1px solid #632b2b;border-left:3px solid #e53e3e;padding:4px 6px;border-radius:4px;cursor:pointer;font-size:.74rem;user-select:none;overflow:hidden}
+.chip.off{background:#131318;border-color:#222;border-left-color:#333;opacity:.4;text-decoration:line-through}
+.chip i{width:6px;height:6px;border-radius:50%;background:#e53e3e;flex-shrink:0}
+.chip.off i{background:#444}
+.chip span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.note{margin-top:4px;font-size:.72rem;color:#777;line-height:1.5;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>DBD サバイバー ルーレット</h1>
+  <div class="box left">
+    <div class="info">抽選対象：<strong id="actCnt">0</strong> 名 / 全 <span id="totCnt">0</span> 名</div>
+    <div class="window"><div class="line" id="line"></div><div class="reel" id="reel"></div></div>
+    <button type="button" class="spin-btn" id="btn" onclick="spin()">ルーレットを回す</button>
+    <label class="opt"><span>当選した人を次回から自動で外す</span><input type="checkbox" id="autoEx"></label>
+  </div>
+  <div class="box">
+    <div class="r-head">
+      <button type="button" class="toggle-list-btn" id="foldBtn" onclick="toggleFold()">▲ 名簿を閉じる</button>
+      <div style="display:flex;gap:4px">
+        <button type="button" class="sm-btn" onclick="setAll(true)">全員ON</button>
+        <button type="button" class="sm-btn" onclick="setAll(false)">全員OFF</button>
+      </div>
+    </div>
+    <div class="roster-body" id="rosterBody">
+      <div><div class="group-head male"><span>男性サバイバー（25名）</span><div style="display:flex;gap:4px"><button type="button" class="sm-btn" onclick="setGrp('M',true)">男性ON</button><button type="button" class="sm-btn" onclick="setGrp('M',false)">男性OFF</button></div></div><div class="grid" id="listM"></div></div>
+      <div><div class="group-head female"><span>女性サバイバー（30名）</span><div style="display:flex;gap:4px"><button type="button" class="sm-btn" onclick="setGrp('F',true)">女性ON</button><button type="button" class="sm-btn" onclick="setGrp('F',false)">女性OFF</button></div></div><div class="grid" id="listF"></div></div>
+    </div>
+  </div>
+  <div class="note">※本ツールは『Dead by Daylight』の非公式ファンメイドツールです。公式および各権利元とは一切関係ありません。<br>※本ツールの利用によって生じたいかなる損害・トラブルについても責任を負いかねます。</div>
+</div>
+<script>
+var mNames="浅川陽一,アシュレイ・J・ウィリアムズ,アダム・フランシス,アラン・ウェイク,ウィリアム・ビル・オーバーベック,エース・ヴィスコンティ,ガブリエル・ソーマ,クエンティン・スミス,クォン・テヨン,シェーン・ウィグワース,ジェイク・パーク,ジェフ・ヨハンセン,ジョナ・バスケス,スティーブ・ハリントン,ダスティン・ヘンダーソン,デイビッド・キング,デビッド・タップ,ドワイト・フェアフィールド,トレバー・ベルモンド,ニコラス・ケイジ,ビットリオ・トスカーノ,フェリックス・リクター,リック・グライムス,レオン・S・ケネディ,レナート・リーラ".split(",");
+var fNames="イレブン,ヴィー・ブーニャサク,エイダ・ウォン,エストゥリー・ヤザール,エロディー・ラコト,エレン・リプリー,オーロラ・スタードッター,オレラ・ローズ,木村結衣,クローデット・モレル,ケイト・デンソン,ザリーナ・カッシル,シェリル・メイソン,ジェーン・ロメロ,シエナ・ショー,ジル・バレンタイン,セーブル・ウォード,タリータ・リーラ,トーリー・ケイン,ナンシー・ウィーラー,ネア・カールソン,ハディ・カウル,フェン・ミン,ミカエラ・リード,ミショーン・グライムス,メグ・トーマス,ララ・クロフト,リー・ユンジン,レベッカ・チェンバース,ローリー・ストロード".split(",");
+var KEY="dbd_roulette_flags_v1",names=mNames.concat(fNames),sexes=[],flags=[],reel=document.getElementById("reel"),line=document.getElementById("line"),btn=document.getElementById("btn"),isSpin=false,curIdx=0,isFolded=false,order=[];
+
+for(var i=0;i<mNames.length;i++){sexes.push("M");flags.push(true)}
+for(var j=0;j<fNames.length;j++){sexes.push("F");flags.push(true)}
+
+function save(){try{var d=[];for(var i=0;i<flags.length;i++)d.push(flags[i]?1:0);localStorage.setItem(KEY,JSON.stringify(d))}catch(e){}}
+function load(){try{var r=localStorage.getItem(KEY);if(r!==null){var d=JSON.parse(r);if(Object.prototype.toString.call(d)==="[object Array]"&&d.length===flags.length){for(var i=0;i<flags.length;i++)flags[i]=!!d[i]}}}catch(e){}}
+function toggleFold(){isFolded=!isFolded;document.getElementById("rosterBody").className=isFolded?"roster-body hidden":"roster-body";document.getElementById("foldBtn").textContent=isFolded?"▼ 名簿を開く":"▲ 名簿を閉じる"}
+function getAct(){var a=[];for(var i=0;i<names.length;i++)if(flags[i])a.push(i);return a}
+function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=b[i];b[i]=b[j];b[j]=t}return b}
+function clearWin(){reel.className="reel";line.className="line";var s=reel.getElementsByClassName("slot");for(var i=0;i<s.length;i++)s[i].className="slot"}
+
+function renderList(){
+  var hM="",hF="";
+  for(var i=0;i<names.length;i++){
+    var c='<div class="chip'+(flags[i]?'':' off')+'" title="'+names[i]+'" onclick="tog('+i+')"><i></i><span>'+names[i]+'</span></div>';
+    if(sexes[i]==="M")hM+=c;else hF+=c;
+  }
+  document.getElementById("listM").innerHTML=hM;document.getElementById("listF").innerHTML=hF;
+  var act=getAct();document.getElementById("actCnt").textContent=act.length;document.getElementById("totCnt").textContent=names.length;btn.disabled=isSpin||act.length===0;
+}
+
+function buildReel(keep){
+  clearWin();
+  var act=getAct(),len=act.length;
+  if(len===0){order=[];reel.style.transition="none";reel.style.top="0px";reel.innerHTML='<div class="slot">---</div><div class="slot">---</div><div class="slot">対象なし</div><div class="slot">---</div><div class="slot">---</div>';return}
+  var prev=(keep&&order.length>0&&curIdx<order.length)?order[curIdx]:-1;
+  order=shuffle(act);
+  if(prev!==-1){var f=-1;for(var k=0;k<order.length;k++)if(order[k]===prev){f=k;break}curIdx=f!==-1?f:0}else curIdx=0;
+  var rep=len<10?Math.ceil(60/len):6,h="";
+  for(var r=0;r<rep;r++)for(var i=0;i<len;i++)h+='<div class="slot">'+names[order[i]]+'</div>';
+  reel.innerHTML=h;setPos(len+curIdx,false);
+}
+
+function setPos(s,a){reel.style.transition=a?"top 3.2s cubic-bezier(.15,.85,.25,1)":"none";reel.style.top=(-((s-2)*48))+"px"}
+function tog(i){if(!isSpin){flags[i]=!flags[i];save();renderList();buildReel(false)}}
+function setAll(s){if(!isSpin){for(var i=0;i<flags.length;i++)flags[i]=s;save();renderList();buildReel(false)}}
+function setGrp(sx,s){if(!isSpin){for(var i=0;i<names.length;i++)if(sexes[i]===sx)flags[i]=s;save();renderList();buildReel(false)}}
+
+function spin(){
+  var act=getAct(),len=act.length;if(isSpin||len===0)return;
+  isSpin=true;btn.disabled=true;buildReel(true);
+  var st=len+curIdx;setPos(st,false);reel.offsetHeight;
+  var tp=Math.floor(Math.random()*len),wi=order[tp],lp=len<10?Math.ceil(20/len):2,df=(tp-curIdx+len)%len,endPos=st+(len*lp)+df;
+  setPos(endPos,true);
+  setTimeout(function(){
+    isSpin=false;curIdx=tp;
+    var slots=reel.getElementsByClassName("slot");
+    if(slots[endPos])slots[endPos].className="slot win";
+    reel.className="reel done";line.className="line hit";
+    if(document.getElementById("autoEx").checked){flags[wi]=false;save();renderList()}else btn.disabled=false;
+  },3250);
+}
+
+load();renderList();buildReel(false);
+</script>
+</body>
+</html>
