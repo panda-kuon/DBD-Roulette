@@ -2,126 +2,1015 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DBD サバイバー ルーレット</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DbD サバイバー パーク＆キャラガチャ（完全版）</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#111116;color:#fff;font-family:sans-serif;padding:14px 14px 120px}
-.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
-h1{font-size:1.25rem;padding-bottom:8px;border-bottom:1px solid #333}
-.box{background:#181820;border:1px solid #333;border-radius:10px;padding:14px}
-.left{display:flex;flex-direction:column;align-items:center}
-.info{font-size:.88rem;color:#aaa;margin-bottom:10px;width:100%;max-width:440px}
-.info strong{color:#fff;font-size:1.1rem}
-.window{position:relative;width:100%;max-width:440px;height:240px;background:#08080a;border:3px solid #444;border-radius:8px;overflow:hidden}
-.line{position:absolute;top:96px;left:0;right:0;height:48px;border-top:2px solid #e53e3e;border-bottom:2px solid #e53e3e;background:rgba(229,62,62,.16);z-index:2;pointer-events:none;transition:all .25s}
-.line.hit{border-color:#ffd700;background:linear-gradient(90deg,#9b1c1c,#742a2a);box-shadow:0 0 14px rgba(255,215,0,.5)}
-.reel{position:absolute;top:0;left:0;width:100%;z-index:3}
-.reel.done .slot{opacity:.38;transition:opacity .25s}
-.slot{height:48px;display:flex;align-items:center;font-size:1.08rem;font-weight:700;border-bottom:1px solid rgba(255,255,255,.06);padding:0 16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:font-size .22s,color .22s}
-.reel.done .slot.win{opacity:1;font-size:1.38rem;color:#fff;text-shadow:0 2px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;letter-spacing:.02em}
-.spin-btn{margin-top:14px;width:100%;max-width:440px;padding:12px;font-size:1.1rem;font-weight:700;color:#fff;background:#e53e3e;border:none;border-radius:8px;cursor:pointer}
-.spin-btn:disabled{background:#555;cursor:not-allowed}
-.opt{margin-top:10px;width:100%;max-width:440px;background:#22222c;border:1px solid #333;padding:9px 12px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-size:.85rem;font-weight:700}
-.opt input{width:17px;height:17px;accent-color:#e53e3e}
-.r-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-.toggle-list-btn{background:#2a2a38;color:#fff;border:1px solid #444;padding:6px 12px;border-radius:6px;font-size:.85rem;font-weight:700;cursor:pointer}
-.sm-btn{background:#333;color:#fff;border:none;padding:4px 8px;border-radius:4px;font-size:.76rem;cursor:pointer}
-.roster-body{margin-top:12px;display:flex;flex-direction:column;gap:14px}
-.roster-body.hidden{display:none}
-.group-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #2b2b38;font-size:.84rem;font-weight:700}
-.group-head.male{color:#63b3ed}.group-head.female{color:#f687b3}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:4px}
-.chip{display:flex;align-items:center;gap:5px;background:#252532;border:1px solid #632b2b;border-left:3px solid #e53e3e;padding:4px 6px;border-radius:4px;cursor:pointer;font-size:.74rem;user-select:none;overflow:hidden}
-.chip.off{background:#131318;border-color:#222;border-left-color:#333;opacity:.4;text-decoration:line-through}
-.chip i{width:6px;height:6px;border-radius:50%;background:#e53e3e;flex-shrink:0}
-.chip.off i{background:#444}
-.chip span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.note{margin-top:4px;font-size:.72rem;color:#777;line-height:1.5;text-align:center}
+  :root {
+    --bg-color: #0d0d10;
+    --panel-bg: #18181f;
+    --border-color: #3a3a4a;
+    --accent-purple: #8e44ad;
+    --accent-teal: #16a085;
+    --accent-amber: #d35400;
+    --accent-gold: #f1c40f;
+    --text-main: #f0f0f5;
+    --slot-height: 90px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 28px 16px 120px;
+    background-image: radial-gradient(circle at center, #1e1626 0%, #0d0d10 100%);
+  }
+  h1 { font-size: 1.7rem; margin-bottom: 14px; letter-spacing: 0.1em; text-shadow: 0 2px 6px rgba(0,0,0,0.95), 0 0 12px rgba(142,68,173,0.6); text-align: center; }
+  .mode-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; background: #111116; padding: 6px; border-radius: 10px; border: 1px solid #2e2e3d; }
+  .mode-tab { background: transparent; color: #9a9ab0; border: 1px solid transparent; padding: 10px 20px; font-size: 0.95rem; font-weight: bold; border-radius: 7px; cursor: pointer; transition: all 0.2s ease; }
+  .mode-tab:hover:not(:disabled) { color: #fff; background: rgba(255,255,255,0.05); }
+  .mode-tab.active[data-mode="preset"] { background: linear-gradient(135deg, #8e44ad, #5e2a75); color: #fff; border-color: #b565d8; box-shadow: 0 2px 10px rgba(142,68,173,0.4); }
+  .mode-tab.active[data-mode="random"] { background: linear-gradient(135deg, #16a085, #0e6655); color: #fff; border-color: #48c9b0; box-shadow: 0 2px 10px rgba(22,160,133,0.4); }
+  .mode-tab.active[data-mode="survivor"] { background: linear-gradient(135deg, #d35400, #873600); color: #fff; border-color: #f39c12; box-shadow: 0 2px 10px rgba(211,84,0,0.4); }
+  .mode-tab:disabled { opacity: 0.5; cursor: not-allowed; }
+  .slot-machine { background: var(--panel-bg); border: 2px solid var(--border-color); border-radius: 12px; padding: 24px 24px 32px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 15px rgba(142,68,173,0.2); width: 100%; max-width: 980px; transition: border-color 0.3s ease; }
+  .slot-machine.random-mode { border-color: #245c52; box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 15px rgba(22,160,133,0.2); }
+  .slot-machine.survivor-mode { border-color: #6e3512; box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 15px rgba(211,84,0,0.2); }
+  .preset-banner { background: #08080c; border: 1px solid #3c2a4d; border-radius: 8px; padding: 14px 16px; margin-bottom: 20px; text-align: center; height: 102px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: inset 0 0 18px rgba(0,0,0,0.95); }
+  .random-mode .preset-banner { border-color: #1f4e45; }
+  .survivor-mode .preset-banner { border-color: #5c2d10; }
+  .preset-category { font-size: 0.88rem; color: #c9a6e8; margin-bottom: 6px; letter-spacing: 0.05em; user-select: text; font-weight: bold; line-height: 1.2; }
+  .random-mode .preset-category { color: #76d7c4; }
+  .survivor-mode .preset-category { color: #f5b041; }
+  .preset-title { font-size: 1.45rem; font-weight: 900; color: #ffffff; letter-spacing: 0.06em; user-select: text; line-height: 1.3; padding: 4px 18px; border: 1px solid transparent; border-radius: 6px; background: transparent; transition: color 0.25s, background-color 0.25s, border-color 0.25s; }
+  .preset-title.revealed { color: #ffd700; background: rgba(255,215,0,0.12); border-color: rgba(255,215,0,0.5); text-shadow: 0 2px 0 #000, 0 -1px 0 #000, 1px 0 0 #000, -1px 0 0 #000, 0 4px 10px rgba(0,0,0,0.9); }
+  .random-mode .preset-title.revealed { color: #2ef2c8; background: rgba(46,242,200,0.12); border-color: rgba(46,242,200,0.5); }
+  .survivor-mode .preset-title.revealed { color: #ffae34; background: rgba(255,174,52,0.14); border-color: rgba(255,174,52,0.55); }
+  .reels-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+  .reels-container.single-reel { grid-template-columns: minmax(280px, 460px); justify-content: center; }
+  @media (max-width: 768px) { .reels-container { grid-template-columns: repeat(2, 1fr); } .reels-container.single-reel { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) { .reels-container { grid-template-columns: 1fr; } }
+  .reel-col { display: flex; flex-direction: column; gap: 8px; }
+  .reel-window { position: relative; height: calc(var(--slot-height) * 3); background: #050508; border: 2px solid #2c2c38; border-radius: 8px; overflow: hidden; box-shadow: inset 0 0 20px rgba(0,0,0,0.98); transition: border-color 0.2s, box-shadow 0.2s; }
+  .reel-col.locked .reel-window { border-color: var(--accent-gold); box-shadow: inset 0 0 20px rgba(0,0,0,0.95), 0 0 12px rgba(241,196,15,0.5); }
+  .reel-window::after { content: ""; position: absolute; top: var(--slot-height); left: 0; right: 0; height: var(--slot-height); border-top: 2px solid #c36ee8; border-bottom: 2px solid #c36ee8; background: transparent; pointer-events: none; z-index: 4; box-shadow: inset 0 0 14px rgba(142,68,173,0.45); }
+  .random-mode .reel-window::after { border-top-color: #36e2c0; border-bottom-color: #36e2c0; box-shadow: inset 0 0 14px rgba(22,160,133,0.45); }
+  .survivor-mode .reel-window::after { border-top-color: #f39c12; border-bottom-color: #f39c12; box-shadow: inset 0 0 14px rgba(243,156,18,0.45); }
+  .reel-col.locked .reel-window::after { border-top-color: var(--accent-gold); border-bottom-color: var(--accent-gold); box-shadow: inset 0 0 16px rgba(241,196,15,0.45); }
+  .reel-window::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(5,5,8,0.94) 0%, rgba(5,5,8,0.72) 32%, rgba(5,5,8,0) 34%, rgba(5,5,8,0) 66%, rgba(5,5,8,0.72) 68%, rgba(5,5,8,0.94) 100%); z-index: 3; pointer-events: none; }
+  .reel-strip { display: flex; flex-direction: column; will-change: transform; position: relative; z-index: 1; }
+  .perk-cell { height: var(--slot-height); display: flex; align-items: center; justify-content: center; text-align: center; padding: 8px 12px; font-weight: bold; font-size: 0.96rem; line-height: 1.3; border-bottom: 1px solid #1a1a22; color: #9898ad; user-select: text; cursor: text; position: relative; }
+  .perk-cell.winner { background: radial-gradient(circle at center, #2d1940 0%, #130b1c 100%); color: #ffe866; font-weight: 900; font-size: 1.06rem; letter-spacing: 0.02em; text-shadow: 0 2px 0 #000, 0 -1px 0 #000, 1px 0 0 #000, -1px 0 0 #000, 0 3px 8px rgba(0,0,0,0.95); cursor: pointer; z-index: 5; animation: winnerGlow 0.4s ease-out; }
+  .perk-cell.winner:hover { filter: brightness(1.12); }
+  .random-mode .perk-cell.winner { background: radial-gradient(circle at center, #113832 0%, #091c19 100%); color: #5effdf; }
+  .survivor-mode .perk-cell.winner { background: radial-gradient(circle at center, #3d230d 0%, #1c1006 100%); color: #ffc857; font-size: 1.2rem; }
+  .reel-col.locked .perk-cell.winner { background: radial-gradient(circle at center, #3d320d 0%, #1c1605 100%); color: #ffd700; }
+  @keyframes winnerGlow { 0% { filter: brightness(1.5); } 100% { filter: brightness(1); } }
+  .copy-toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(24,24,34,0.96); border: 1px solid #b565d8; color: #fff; padding: 10px 22px; border-radius: 30px; font-size: 0.9rem; font-weight: bold; box-shadow: 0 6px 20px rgba(0,0,0,0.7); opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s; z-index: 999; }
+  .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .lock-btn { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #3c3c4e; background: #14141c; color: #b0b0c5; font-size: 0.85rem; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+  .lock-btn:hover:not(:disabled) { background: #1f1f2b; color: #fff; }
+  .lock-btn.locked { background: rgba(241,196,15,0.18); border-color: var(--accent-gold); color: #ffeaa7; }
+  .lock-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .controls-area { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .exclude-option { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; color: #ddd; cursor: pointer; user-select: none; background: #111117; padding: 8px 16px; border-radius: 6px; border: 1px solid #2e2e3d; }
+  .exclude-option input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--accent-purple); cursor: pointer; }
+  .random-mode .exclude-option input[type="checkbox"] { accent-color: var(--accent-teal); }
+  .survivor-mode .exclude-option input[type="checkbox"] { accent-color: var(--accent-amber); }
+  .status-bar { font-size: 0.85rem; color: #a8a8bd; }
+  .btn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  button.primary-btn { background: linear-gradient(135deg, #8e44ad, #5e2a75); color: #fff; border: 1px solid #b565d8; padding: 14px 44px; font-size: 1.1rem; font-weight: bold; border-radius: 6px; cursor: pointer; letter-spacing: 0.08em; transition: all 0.2s ease; box-shadow: 0 4px 15px rgba(142,68,173,0.4); }
+  button.primary-btn:hover:not(:disabled) { background: linear-gradient(135deg, #9b59b6, #6c3483); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(142,68,173,0.6); }
+  .random-mode button.primary-btn { background: linear-gradient(135deg, #16a085, #0e6655); border-color: #48c9b0; box-shadow: 0 4px 15px rgba(22,160,133,0.4); }
+  .random-mode button.primary-btn:hover:not(:disabled) { background: linear-gradient(135deg, #1abc9c, #117864); box-shadow: 0 6px 20px rgba(22,160,133,0.6); }
+  .survivor-mode button.primary-btn { background: linear-gradient(135deg, #d35400, #873600); border-color: #f39c12; box-shadow: 0 4px 15px rgba(211,84,0,0.4); }
+  .survivor-mode button.primary-btn:hover:not(:disabled) { background: linear-gradient(135deg, #e67e22, #a04000); box-shadow: 0 6px 20px rgba(211,84,0,0.6); }
+  button.primary-btn:disabled { background: #2c2c35; border-color: #444; color: #777; cursor: not-allowed; box-shadow: none; }
+  button.sub-btn { background: #252530; color: #e0e0ea; border: 1px solid #454558; padding: 8px 14px; font-size: 0.82rem; border-radius: 6px; cursor: pointer; }
+  button.sub-btn:hover:not(:disabled) { background: #323242; }
+  button.sub-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .hidden { display: none !important; }
+  .filter-section { margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 16px; }
+  .toggle-header { width: 100%; background: #121218; border: 1px solid #353546; color: #e2e2ec; padding: 12px 16px; border-radius: 8px; font-size: 0.95rem; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+  .toggle-header:hover { background: #1c1c26; }
+  .filter-body { margin-top: 12px; background: #101015; border: 1px solid #2b2b38; border-radius: 8px; padding: 16px 16px 20px; }
+  .filter-toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #262633; }
+  .char-cards-wrapper { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 8px; max-height: 440px; overflow-y: auto; padding: 2px 4px 12px 0; }
+  @media (max-width: 520px) { .char-cards-wrapper { grid-template-columns: 1fr; } }
+  .char-card { background: #15151e; border: 1px solid #2b2b3a; border-radius: 8px; padding: 9px 12px; transition: opacity 0.2s, border-color 0.2s; }
+  .char-card.all-off { opacity: 0.45; }
+  .char-card.shared-card { grid-column: 1 / -1; }
+  .category-group { margin-bottom: 16px; }
+  .category-group:last-child { margin-bottom: 0; }
+  .category-header-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .category-header { font-size: 0.86rem; font-weight: bold; color: #c39bd3; cursor: pointer; user-select: none; flex: 1; padding: 3px 0; display: flex; align-items: center; gap: 6px; }
+  .random-mode .category-header { color: #76d7c4; }
+  .random-mode .category-header:hover { color: #a3e4d7; }
+  .char-count-badge { font-size: 0.72rem; color: #8f8fa3; font-weight: normal; }
+  .char-toggle-btn { background: #222230; border: 1px solid #3c3c50; color: #ccc; font-size: 0.72rem; padding: 3px 8px; border-radius: 4px; cursor: pointer; white-space: nowrap; }
+  .char-toggle-btn:hover { background: #2f2f42; color: #fff; }
+  .preset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; margin-top: 8px; }
+  .survivor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; max-height: 440px; overflow-y: auto; padding-right: 4px; }
+  .perk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; padding-top: 8px; border-top: 1px solid #242432; }
+  .shared-card .perk-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+  @media (max-width: 600px) { .perk-grid { grid-template-columns: 1fr; } }
+  .preset-item, .perk-item, .survivor-item { display: flex; align-items: center; gap: 6px; background: #1c1c28; border: 1px solid #2e2e40; padding: 6px 8px; border-radius: 5px; cursor: pointer; font-size: 0.78rem; line-height: 1.25; }
+  .preset-item { align-items: flex-start; padding: 8px 10px; font-size: 0.84rem; }
+  .survivor-item { padding: 8px 10px; font-size: 0.84rem; }
+  .preset-item:hover, .perk-item:hover { border-color: #6c3483; }
+  .random-mode .perk-item:hover { border-color: #16a085; }
+  .survivor-item:hover { border-color: #d35400; }
+  .preset-item.unchecked, .perk-item.unchecked, .survivor-item.unchecked { opacity: 0.38; }
+  .preset-item input, .perk-item input, .survivor-item input { accent-color: var(--accent-purple); cursor: pointer; flex-shrink: 0; }
+  .random-mode .perk-item input { accent-color: var(--accent-teal); }
+  .survivor-item input { accent-color: var(--accent-amber); }
+  .preset-item-info { display: flex; flex-direction: column; gap: 3px; }
+  .preset-item-name { font-weight: bold; color: #f0f0f5; }
+  .preset-item-perks { font-size: 0.75rem; color: #9a9ab0; line-height: 1.3; }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>DBD サバイバー ルーレット</h1>
-  <div class="box left">
-    <div class="info">抽選対象：<strong id="actCnt">0</strong> 名 / 全 <span id="totCnt">0</span> 名</div>
-    <div class="window"><div class="line" id="line"></div><div class="reel" id="reel"></div></div>
-    <button type="button" class="spin-btn" id="btn" onclick="spin()">ルーレットを回す</button>
-    <label class="opt"><span>当選した人を次回から自動で外す</span><input type="checkbox" id="autoEx"></label>
+  <h1>DBD SURVIVOR PERK &amp; CHAR GACHA</h1>
+  <div class="mode-tabs">
+    <button type="button" class="mode-tab active" data-mode="preset">プリセット構成ガチャ</button>
+    <button type="button" class="mode-tab" data-mode="random">全パーク完全ランダム</button>
+    <button type="button" class="mode-tab" data-mode="survivor">サバイバーガチャ</button>
   </div>
-  <div class="box">
-    <div class="r-head">
-      <button type="button" class="toggle-list-btn" id="foldBtn" onclick="toggleFold()">▲ 名簿を閉じる</button>
-      <div style="display:flex;gap:4px">
-        <button type="button" class="sm-btn" onclick="setAll(true)">全員ON</button>
-        <button type="button" class="sm-btn" onclick="setAll(false)">全員OFF</button>
+
+  <div class="slot-machine" id="slot-machine">
+    <div class="preset-banner">
+      <div class="preset-category" id="preset-category">【プリセット構成モード】</div>
+      <div class="preset-title" id="preset-title">？？？</div>
+    </div>
+
+    <div class="reels-container" id="reels-container">
+      <div class="reel-col" id="reel-col-0">
+        <div class="reel-window"><div class="reel-strip" id="reel-0"></div></div>
+        <button type="button" class="lock-btn hidden" id="lock-btn-0">🔓 固定する</button>
+      </div>
+      <div class="reel-col" id="reel-col-1">
+        <div class="reel-window"><div class="reel-strip" id="reel-1"></div></div>
+        <button type="button" class="lock-btn hidden" id="lock-btn-1">🔓 固定する</button>
+      </div>
+      <div class="reel-col" id="reel-col-2">
+        <div class="reel-window"><div class="reel-strip" id="reel-2"></div></div>
+        <button type="button" class="lock-btn hidden" id="lock-btn-2">🔓 固定する</button>
+      </div>
+      <div class="reel-col" id="reel-col-3">
+        <div class="reel-window"><div class="reel-strip" id="reel-3"></div></div>
+        <button type="button" class="lock-btn hidden" id="lock-btn-3">🔓 固定する</button>
       </div>
     </div>
-    <div class="roster-body" id="rosterBody">
-      <div><div class="group-head male"><span>男性サバイバー（25名）</span><div style="display:flex;gap:4px"><button type="button" class="sm-btn" onclick="setGrp('M',true)">男性ON</button><button type="button" class="sm-btn" onclick="setGrp('M',false)">男性OFF</button></div></div><div class="grid" id="listM"></div></div>
-      <div><div class="group-head female"><span>女性サバイバー（30名）</span><div style="display:flex;gap:4px"><button type="button" class="sm-btn" onclick="setGrp('F',true)">女性ON</button><button type="button" class="sm-btn" onclick="setGrp('F',false)">女性OFF</button></div></div><div class="grid" id="listF"></div></div>
+
+    <div class="controls-area">
+      <label class="exclude-option" id="preset-exclude-wrap">
+        <input type="checkbox" id="preset-auto-exclude">
+        <span>一度出た構成を次回から外す（自動でチェックを外す）</span>
+      </label>
+      <label class="exclude-option hidden" id="random-exclude-wrap">
+        <input type="checkbox" id="random-auto-exclude">
+        <span>一度出たパークを次回から外す（自動でチェックを外す）</span>
+      </label>
+      <label class="exclude-option hidden" id="survivor-exclude-wrap">
+        <input type="checkbox" id="survivor-auto-exclude">
+        <span>一度出たサバイバーを次回から外す（自動でチェックを外す）</span>
+      </label>
+      <div class="status-bar" id="status-bar">抽選対象：43 / 43 構成</div>
+      <div class="btn-group">
+        <button class="primary-btn" id="spin-btn">ガチャを回す</button>
+        <button type="button" class="sub-btn" id="reset-display-btn" style="padding: 14px 20px; font-size: 0.95rem;">出目を？？？に戻す</button>
+      </div>
+    </div>
+
+    <div class="filter-section" id="preset-filter-section">
+      <button type="button" class="toggle-header" id="preset-toggle-btn">
+        <span>▼ 抽選対象の構成を個別にオン・オフ設定</span><span id="preset-toggle-text">閉じる</span>
+      </button>
+      <div class="filter-body" id="preset-filter-body">
+        <div class="filter-toolbar">
+          <div class="btn-group">
+            <button type="button" class="sub-btn" id="preset-check-all">すべてオン（リセット）</button>
+            <button type="button" class="sub-btn" id="preset-uncheck-all">すべてオフ</button>
+          </div>
+          <span style="font-size: 0.8rem; color: #999;">※チェックが入っている構成のみ抽選されます</span>
+        </div>
+        <div id="preset-list-container"></div>
+      </div>
+    </div>
+
+    <div class="filter-section hidden" id="random-filter-section">
+      <button type="button" class="toggle-header" id="random-toggle-btn">
+        <span>▼ 抽選対象のパークをサバイバー・共有別にオン・オフ設定</span><span id="random-toggle-text">閉じる</span>
+      </button>
+      <div class="filter-body" id="random-filter-body">
+        <div class="filter-toolbar">
+          <div class="btn-group">
+            <button type="button" class="sub-btn" id="random-check-all">すべてオン（リセット）</button>
+            <button type="button" class="sub-btn" id="random-uncheck-all">すべてオフ</button>
+            <button type="button" class="sub-btn" id="random-expand-all">すべて開く</button>
+            <button type="button" class="sub-btn" id="random-collapse-all">すべて閉じる</button>
+          </div>
+          <span style="font-size: 0.8rem; color: #999;">※キャラ名クリックで開閉／一括切替で3種オンオフ</span>
+        </div>
+        <div class="char-cards-wrapper" id="perk-list-container"></div>
+      </div>
+    </div>
+
+    <div class="filter-section hidden" id="survivor-filter-section">
+      <button type="button" class="toggle-header" id="survivor-toggle-btn">
+        <span>▼ 抽選対象のサバイバーを個別にオン・オフ設定</span><span id="survivor-toggle-text">閉じる</span>
+      </button>
+      <div class="filter-body" id="survivor-filter-body">
+        <div class="filter-toolbar">
+          <div class="btn-group">
+            <button type="button" class="sub-btn" id="survivor-check-all">すべてオン（リセット）</button>
+            <button type="button" class="sub-btn" id="survivor-uncheck-all">すべてオフ</button>
+          </div>
+          <span style="font-size: 0.8rem; color: #999;">※未所持キャラのチェックを外して抽選できます</span>
+        </div>
+        <div class="survivor-grid" id="survivor-list-container"></div>
+      </div>
     </div>
   </div>
-  <div class="note">※本ツールは『Dead by Daylight』の非公式ファンメイドツールです。公式および各権利元とは一切関係ありません。<br>※本ツールの利用によって生じたいかなる損害・トラブルについても責任を負いかねます。</div>
-</div>
+  <div class="copy-toast" id="copy-toast">コピーしました！</div>
 <script>
-var mNames="浅川陽一,アシュレイ・J・ウィリアムズ,アダム・フランシス,アラン・ウェイク,ウィリアム・ビル・オーバーベック,エース・ヴィスコンティ,ガブリエル・ソーマ,クエンティン・スミス,クォン・テヨン,シェーン・ウィグワース,ジェイク・パーク,ジェフ・ヨハンセン,ジョナ・バスケス,スティーブ・ハリントン,ダスティン・ヘンダーソン,デイビッド・キング,デビッド・タップ,ドワイト・フェアフィールド,トレバー・ベルモンド,ニコラス・ケイジ,ビットリオ・トスカーノ,フェリックス・リクター,リック・グライムス,レオン・S・ケネディ,レナート・リーラ".split(",");
-var fNames="イレブン,ヴィー・ブーニャサク,エイダ・ウォン,エストゥリー・ヤザール,エロディー・ラコト,エレン・リプリー,オーロラ・スタードッター,オレラ・ローズ,木村結衣,クローデット・モレル,ケイト・デンソン,ザリーナ・カッシル,シェリル・メイソン,ジェーン・ロメロ,シエナ・ショー,ジル・バレンタイン,セーブル・ウォード,タリータ・リーラ,トーリー・ケイン,ナンシー・ウィーラー,ネア・カールソン,ハディ・カウル,フェン・ミン,ミカエラ・リード,ミショーン・グライムス,メグ・トーマス,ララ・クロフト,リー・ユンジン,レベッカ・チェンバース,ローリー・ストロード".split(",");
-var KEY="dbd_roulette_flags_v1",names=mNames.concat(fNames),sexes=[],flags=[],reel=document.getElementById("reel"),line=document.getElementById("line"),btn=document.getElementById("btn"),isSpin=false,curIdx=0,isFolded=false,order=[];
+  const CATEGORIZED_PERKS = [
+    { category: "【ドワイト・フェアフィールド】", perks: ["絆", "有能の証明", "リーダー"] },
+    { category: "【メグ・トーマス】", perks: ["素早く静かに", "全力疾走", "アドレナリン"] },
+    { category: "【クローデット・モレル】", perks: ["共感", "植物学の知識", "セルフケア"] },
+    { category: "【ジェイク・パーク】", perks: ["鋼の意思", "魂の平穏", "サボタージュ"] },
+    { category: "【ネア・カールソン】", perks: ["スマートな着地", "都会の逃走術", "都会の生存術"] },
+    { category: "【エース・ヴィスコンティ】", perks: ["手札公開", "賭け金のレイズ", "最後の切り札"] },
+    { category: "【フェン・ミン】", perks: ["テクニシャン", "しなやか", "警戒"] },
+    { category: "【ローリー・ストロード】", perks: ["唯一の生存者（最後の一人）", "執念の対象（オブオブ/執念の束縛）", "決死の一撃（ストライク/DS/生きる意志）"] },
+    { category: "【デイビッド・キング】", perks: ["ずっと一緒だ", "デッド・ハード", "弱音はナシだ"] },
+    { category: "【クエンティン・スミス】", perks: ["目を覚ませ！", "調剤学", "寝ずの番"] },
+    { category: "【タップ刑事】", perks: ["執念", "刑事の直感", "張り込み"] },
+    { category: "【ケイト・デンソン】", perks: ["ダンス・ウィズ・ミー", "ウィンドウズ・オブ・オポチュニティ（先読み）", "ボイルオーバー"] },
+    { category: "【アダム・フランシス】", perks: ["陽動", "解放", "独学者"] },
+    { category: "【ウィリアム・ビル・オーバーベック】", perks: ["置き去りにされた者", "与えられた猶予", "不滅"] },
+    { category: "【ジェフ・ヨハンセン】", perks: ["ブレイクダウン", "アフターケア", "ディストーション"] },
+    { category: "【ジェーン・ロメロ】", perks: ["連帯感", "平常心", "真っ向勝負"] },
+    { category: "【スティーブ・ハリントン】", perks: ["ベビーシッター", "仲間意識", "セカンドウインド"] },
+    { category: "【ナンシー・ウィーラー】", perks: ["一緒にいよう", "執着心", "内なる力"] },
+    { category: "【アシュレイ・J・ウィリアムズ】", perks: ["フリップ・フロップ", "ベルトを締めろ！", "英雄の奮起"] },
+    { category: "【木村結衣】", perks: ["怪我の功名", "強硬手段", "突破"] },
+    { category: "【ザリーナ・カッシル】", perks: ["オフレコ", "おとり", "人々のために"] },
+    { category: "【シェリル・メイソン】", perks: ["ソウルガード", "血の協定", "抑圧の同盟"] },
+    { category: "【フェリックス・リクター】", perks: ["透視家", "苦肉の策", "耐久設計"] },
+    { category: "【エロディー・ラコト】", perks: ["査定", "欺き", "勢力争い"] },
+    { category: "【リー・ユンジン】", perks: ["出世街道", "大ヒット", "自己防衛"] },
+    { category: "【レオン・S・ケネディ】", perks: ["忍苦の時", "スタングレネード", "新人魂"] },
+    { category: "【ジル・バレンタイン】", perks: ["カウンターフォース", "起死回生", "地雷爆破"] },
+    { category: "【ミカエラ・リード】", perks: ["千里眼", "恵み：癒しの輪", "恵み：シャドウステップ"] }
+  ];
+  CATEGORIZED_PERKS.push(
+    { category: "【ジョナ・バスケス】", perks: ["是正措置", "恵み：指数関数", "打開策"] },
+    { category: "【浅川陽一】", perks: ["父の助言", "共感的つながり", "恵み：霊界理論"] },
+    { category: "【ハディ・カウル】", perks: ["インナーフォーカス", "残像の顕現", "過剰な熱意"] },
+    { category: "【エイダ・ウォン】", perks: ["盗聴", "反射回復", "雲隠れ"] },
+    { category: "【レベッカ・チェンバース】", perks: ["みなぎる活力", "安心感", "全集中"] },
+    { category: "【ビットリオ・トスカーノ】", perks: ["位置エネルギー", "霧の作法", "加速の策略"] },
+    { category: "【タリータ・リーラ】", perks: ["逃亡の飛躍", "切磋琢磨", "チームワーク：二人の力"] },
+    { category: "【レナート・リーラ】", perks: ["陰の実力者", "血の騒ぎ", "チームワーク：共同ステルス"] },
+    { category: "【ガブリエル・ソーマ】", perks: ["修理担当者", "状況適応能力", "ゴミ漁りの名人"] },
+    { category: "【ニコラス・ケイジ】", perks: ["劇作法", "シーンの相手役", "予想外の展開"] },
+    { category: "【エレン・リプリー】", perks: ["化学的な罠", "忍び足", "幸運の星"] },
+    { category: "【アラン・ウェイク】", perks: ["光の闘士", "恵み：イルミネーション", "締め切り"] },
+    { category: "【セーブル・ウォード】", perks: ["呼び出し：網を張る蜘蛛", "影に潜む強み", "邪気"] },
+    { category: "【エストゥリー・ヤザール】", perks: ["幻影", "吟遊詩人の鼓舞", "不動の視力"] },
+    { category: "【ララ・クロフト】", perks: ["俊敏", "強靭", "スペシャリスト"] },
+    { category: "【トレバー・ベルモンド】", perks: ["ベルモンドの目", "歓喜", "栄光の瞬間"] },
+    { category: "【トーリー・ケイン】", perks: ["呼び出し：裏切り者のカラス", "決別", "重責の引き受け"] },
+    { category: "【オレラ・ローズ】", perks: ["害をなすなかれ", "救助義務", "迅速な対応"] },
+    { category: "【リック・グライムズ】", perks: ["終末世界の知恵", "捕まえてみろ！", "チームワーク：強化"] },
+    { category: "【ミショーン・グライムズ】", perks: ["信念", "最後の抵抗", "チームワーク：挑戦"] },
+    { category: "【ヴィー・ブーニャサク】", perks: ["路上生活", "ワンツースリーフォー！", "ゴーストノート"] },
+    { category: "【ダスティン・ヘンダーソン】", perks: ["ジャ・ジャ・ジャ・ジャーン", "作戦変更", "チームワーク：つながった回路"] },
+    { category: "【イレブン】", perks: ["ESP", "みんなに見える", "チームワーク：小さな声"] },
+    { category: "【クォン・テヨン】", perks: ["フロー状態", "秘密の場所", "先読み"] },
+    { category: "【シェーン・ウィグワース】", perks: ["アクセル全開", "手助け", "反対尋問"] },
+    { category: "【オーロラ・スタードッター】", perks: ["努力の賜物", "救いの叫び", "恵み：着実"] },
+    { category: "【シエナ・ショー】", perks: ["戦乙女の怒り", "トラウマの共有", "最高の贈り物"] },
+    { category: "【共有パーク】", perks: ["きっとやり遂げる", "コソ泥の本能", "ツルツルとした肉体", "デジャヴ", "予感", "凍りつく背筋（猫）", "唯一の生存者（最後の一人）", "執念の対象（オブオブ/執念の束縛）", "小さな獲物", "希望", "決死の一撃（ストライク/DS/生きる意志）", "痛みも気から", "血族", "誰も見捨てはしない", "身軽", "逆境魂", "闇の感覚"] }
+  );
 
-for(var i=0;i<mNames.length;i++){sexes.push("M");flags.push(true)}
-for(var j=0;j<fNames.length;j++){sexes.push("F");flags.push(true)}
+  const ALL_SURVIVORS = CATEGORIZED_PERKS.filter(g => g.category !== "【共有パーク】").map(g => g.category.replace(/^【|】$/g, ""));
+  const PRESET_BUILDS = [
+    { category: "【王道・ガチ構成（環境・キャリー向け）】", name: "バランス万能型", perks: ["デジャヴ", "全力疾走", "ウィンドウズ・オブ・オポチュニティ（先読み）", "決死の一撃（ストライク/DS/生きる意志）"] },
+    { category: "【王道・ガチ構成（環境・キャリー向け）】", name: "トンネル対策・キャリー特化", perks: ["重責の引き受け", "決死の一撃（ストライク/DS/生きる意志）", "安心感", "全力疾走"] },
+    { category: "【王道・ガチ構成（環境・キャリー向け）】", name: "チェイス・逃げ切り特化", perks: ["デッド・ハード", "決死の一撃（ストライク/DS/生きる意志）", "逆境魂", "ウィンドウズ・オブ・オポチュニティ（先読み）"] },
+    { category: "【王道・ガチ構成（環境・キャリー向け）】", name: "疲労高速回転チェイス型", perks: ["全力疾走", "寝ずの番", "ゴーストノート", "身軽"] },
+    { category: "【王道・ガチ構成（環境・キャリー向け）】", name: "対放置＆トンネル両対応型", perks: ["全力疾走", "決死の一撃（ストライク/DS/生きる意志）", "不滅", "ウィンドウズ・オブ・オポチュニティ（先読み）"] },
+    { category: "【王道・ガチ構成（環境・キャリー向け）】", name: "チーム全体加速・リーダー型", perks: ["リーダー", "有能の証明", "絆", "全力疾走"] },
+    { category: "【初心者・初期キャラ中心構成】", name: "セルボタ安定型", perks: ["セルフケア", "植物学の知識", "全力疾走", "デジャヴ"] },
+    { category: "【初心者・初期キャラ中心構成】", name: "初期ドワイト発電・索敵型", perks: ["絆", "有能の証明", "デジャヴ", "血族"] },
+    { category: "【初心者・初期キャラ中心構成】", name: "初期フェン・ミンチェイス練習型", perks: ["しなやか", "警戒", "デジャヴ", "血族"] },
+    { category: "【初心者・初期キャラ中心構成】", name: "チェイスルート習得型", perks: ["闇の感覚", "絆", "しなやか", "ウィンドウズ・オブ・オポチュニティ（先読み）"] },
+    { category: "【発電機修理特化構成】", name: "単独爆速修理型", perks: ["デジャヴ", "全集中", "影に潜む強み", "ウィンドウズ・オブ・オポチュニティ（先読み）"] },
+    { category: "【発電機修理特化構成】", name: "張り込み全集中コンボ型", perks: ["デジャヴ", "有能の証明", "全集中", "張り込み"] },
+    { category: "【発電機修理特化構成】", name: "隠密発電機マン型", perks: ["有能の証明", "絆", "手札公開", "凍りつく背筋（猫）"] },
+    { category: "【救助・ヒーラー特化構成】", name: "鉄壁の救助・延命型", perks: ["ベビーシッター", "安心感", "きっとやり遂げる", "解放"] },
+    { category: "【救助・ヒーラー特化構成】", name: "野良向け救助サポート型", perks: ["全力疾走", "セルフケア", "苦肉の策", "ベビーシッター"] },
+    { category: "【救助・ヒーラー特化構成】", name: "爆速ヒーラー特化型", perks: ["独学者", "共感", "植物学の知識", "きっとやり遂げる"] },
+    { category: "【救助・ヒーラー特化構成】", name: "セルフケア不要回復型", perks: ["内なる力", "セカンドウインド", "アドレナリン", "連帯感"] },
+    { category: "【救助・ヒーラー特化構成】", name: "超速リカバリー・這いずり救助型", perks: ["オフレコ", "重責の引き受け", "きっとやり遂げる", "全力疾走"] },
+    { category: "【救助・ヒーラー特化構成】", name: "負傷ばらまき対抗・連鎖回復型", perks: ["連帯感", "植物学の知識", "共感", "セカンドウインド"] },
+    { category: "【隠密・トーテム（恵み）構成】", name: "超隠密・足跡消去型", perks: ["打開策", "鋼の意思", "怪我の功名", "逆境魂"] },
+    { category: "【隠密・トーテム（恵み）構成】", name: "トーテム恵みフルセット型", perks: ["恵み：癒しの輪", "恵み：シャドウステップ", "恵み：霊界理論", "ESP"] },
+    { category: "【隠密・トーテム（恵み）構成】", name: "孤立・ハッチ脱出型", perks: ["置き去りにされた者", "手札公開", "絆", "コソ泥の本能"] },
+    { category: "【トラップ・妨害・撹乱コンボ】", name: "発電機トラップフルセット型", perks: ["地雷爆破", "盗聴", "化学的な罠", "スタングレネード"] },
+    { category: "【トラップ・妨害・撹乱コンボ】", name: "擬態・発電機トロール型", perks: ["地雷爆破", "盗聴", "化学的な罠", "幻影"] },
+    { category: "【トラップ・妨害・撹乱コンボ】", name: "フェイク通知・キラー撹乱型", perks: ["陽動", "おとり", "欺き", "張り込み"] },
+    { category: "【トラップ・妨害・撹乱コンボ】", name: "オーラ完全透視＆発電機防衛型", perks: ["抑圧の同盟", "盗聴", "警戒", "修理担当者"] },
+    { category: "【トラップ・妨害・撹乱コンボ】", name: "ライト救助・肉壁サポート型", perks: ["陰の実力者", "突破", "絆", "サボタージュ"] },
+    { category: "【特殊チェイス・負傷活用コンボ】", name: "負傷時爆速・背水の陣型", perks: ["弱音はナシだ", "デッド・ハード", "逆境魂", "凍りつく背筋（猫）"] },
+    { category: "【特殊チェイス・負傷活用コンボ】", name: "高所ループ・ハステ（迅速）型", perks: ["スマートな着地", "寝ずの番", "恵み：霊界理論", "ウィンドウズ・オブ・オポチュニティ（先読み）"] },
+    { category: "【特殊チェイス・負傷活用コンボ】", name: "二段構えダッシュ・健康＆負傷切替型", perks: ["劇作法", "デッド・ハード", "寝ずの番", "警戒"] },
+    { category: "【特殊チェイス・負傷活用コンボ】", name: "板スタン・もがき脱出特化型", perks: ["勢力争い", "執念", "フリップ・フロップ", "不滅"] },
+    { category: "【特殊チェイス・負傷活用コンボ】", name: "板グル・窓枠最速ループ型", perks: ["しなやか", "ダンス・ウィズ・ミー", "ウィンドウズ・オブ・オポチュニティ（先読み）", "逆境魂"] },
+    { category: "【特殊チェイス・負傷活用コンボ】", name: "怪我の功名・瞬間ロッカー隠密型", perks: ["怪我の功名", "素早く静かに", "内なる力", "鋼の意思"] },
+    { category: "【隠密・オーラ探知・特殊立ち回り】", name: "気配完全遮断・忍者型", perks: ["都会の逃走術", "凍りつく背筋（猫）", "ディストーション", "魂の平穏"] },
+    { category: "【隠密・オーラ探知・特殊立ち回り】", name: "4つの瞳・全情報掌握型", perks: ["デジャヴ", "執念の対象（オブオブ/執念の束縛）", "血族", "闇の感覚"] },
+    { category: "【隠密・オーラ探知・特殊立ち回り】", name: "トーテム破壊・発電機加速型", perks: ["小さな獲物", "カウンターフォース", "内なる力", "過剰な熱意"] },
+    { category: "【通電後・終盤逆転・サポート】", name: "通電後無双・ゲート開放型", perks: ["アドレナリン", "希望", "誰も見捨てはしない", "目を覚ませ！"] },
+    { category: "【通電後・終盤逆転・サポート】", name: "全力犠牲・味方全快ヒーラー型", perks: ["人々のために", "解放", "内なる力", "ボイルオーバー"] },
+    { category: "【通電後・終盤逆転・サポート】", name: "タゲ取り・ヘイト管理型", perks: ["執念の対象（オブオブ/執念の束縛）", "ベビーシッター", "陽動", "おとり"] },
+    { category: "【ロマン・ネタ・妨害構成】", name: "絶対に吊らせない型", perks: ["ボイルオーバー", "フリップ・フロップ", "ブレイクダウン", "不滅"] },
+    { category: "【ロマン・ネタ・妨害構成】", name: "キラー怯ませ・スタン型", perks: ["スタングレネード", "真っ向勝負", "素早く静かに", "決死の一撃（ストライク/DS/生きる意志）"] },
+    { category: "【ロマン・ネタ・妨害構成】", name: "お宝アイテム持ち帰り型", perks: ["コソ泥の本能", "最後の切り札", "査定", "手札公開"] },
+    { category: "【ロマン・ネタ・妨害構成】", name: "完全ロッカー籠城・翻弄型", perks: ["真っ向勝負", "欺き", "素早く静かに", "ダンス・ウィズ・ミー"] }
+  ];
+  const UNIQUE_ALL_PERKS = [...new Set(CATEGORIZED_PERKS.flatMap(g => g.perks))];
+  const PRESET_PERK_POOL = [...new Set(PRESET_BUILDS.flatMap(b => b.perks))];
+  const CELL_HEIGHT = 90;
+  const REEL_COUNT = 4;
 
-function save(){try{var d=[];for(var i=0;i<flags.length;i++)d.push(flags[i]?1:0);localStorage.setItem(KEY,JSON.stringify(d))}catch(e){}}
-function load(){try{var r=localStorage.getItem(KEY);if(r!==null){var d=JSON.parse(r);if(Object.prototype.toString.call(d)==="[object Array]"&&d.length===flags.length){for(var i=0;i<flags.length;i++)flags[i]=!!d[i]}}}catch(e){}}
-function toggleFold(){isFolded=!isFolded;document.getElementById("rosterBody").className=isFolded?"roster-body hidden":"roster-body";document.getElementById("foldBtn").textContent=isFolded?"▼ 名簿を開く":"▲ 名簿を閉じる"}
-function getAct(){var a=[];for(var i=0;i<names.length;i++)if(flags[i])a.push(i);return a}
-function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=b[i];b[i]=b[j];b[j]=t}return b}
-function clearWin(){reel.className="reel";line.className="line";var s=reel.getElementsByClassName("slot");for(var i=0;i<s.length;i++)s[i].className="slot"}
+  const slotMachineEl = document.getElementById("slot-machine");
+  const reelsContainerEl = document.getElementById("reels-container");
+  const modeTabs = document.querySelectorAll(".mode-tab");
+  const spinBtn = document.getElementById("spin-btn");
+  const resetDisplayBtn = document.getElementById("reset-display-btn");
+  const categoryEl = document.getElementById("preset-category");
+  const titleEl = document.getElementById("preset-title");
+  const statusBar = document.getElementById("status-bar");
+  const copyToast = document.getElementById("copy-toast");
 
-function renderList(){
-  var hM="",hF="";
-  for(var i=0;i<names.length;i++){
-    var c='<div class="chip'+(flags[i]?'':' off')+'" title="'+names[i]+'" onclick="tog('+i+')"><i></i><span>'+names[i]+'</span></div>';
-    if(sexes[i]==="M")hM+=c;else hF+=c;
+  const presetExcludeWrap = document.getElementById("preset-exclude-wrap");
+  const presetAutoExclude = document.getElementById("preset-auto-exclude");
+  const presetFilterSection = document.getElementById("preset-filter-section");
+  const presetListContainer = document.getElementById("preset-list-container");
+
+  const randomExcludeWrap = document.getElementById("random-exclude-wrap");
+  const randomAutoExclude = document.getElementById("random-auto-exclude");
+  const randomFilterSection = document.getElementById("random-filter-section");
+  const perkListContainer = document.getElementById("perk-list-container");
+
+  const survivorExcludeWrap = document.getElementById("survivor-exclude-wrap");
+  const survivorAutoExclude = document.getElementById("survivor-auto-exclude");
+  const survivorFilterSection = document.getElementById("survivor-filter-section");
+  const survivorListContainer = document.getElementById("survivor-list-container");
+
+  const strips = Array.from({ length: REEL_COUNT }, (_, i) => document.getElementById(`reel-${i}`));
+  const reelCols = Array.from({ length: REEL_COUNT }, (_, i) => document.getElementById(`reel-col-${i}`));
+  const lockBtns = Array.from({ length: REEL_COUNT }, (_, i) => document.getElementById(`lock-btn-${i}`));
+
+  let currentMode = "preset";
+  let lastSelectedIndex = -1;
+  let lastSelectedSurvivor = "";
+  let isSpinning = false;
+  let lockedSlots = [false, false, false, false];
+  let currentSlotPerks = ["？？？", "？？？", "？？？", "？？？"];
+  let toastTimer = null;
+
+  const modeStates = {
+    preset: { perks: ["？？？", "？？？", "？？？", "？？？"], category: "【プリセット構成モード】", title: "？？？", revealed: false },
+    random: { perks: ["？？？", "？？？", "？？？", "？？？"], category: "【全パーク完全ランダムモード】", title: "？？？", revealed: false, locks: [false, false, false, false] },
+    survivor: { perks: ["？？？", "？？？", "？？？", "？？？"], category: "【サバイバーランダム抽選モード】", title: "？？？", revealed: false }
+  };
+
+  function saveCurrentModeToMemory() {
+    modeStates[currentMode].perks = [...currentSlotPerks];
+    modeStates[currentMode].category = categoryEl.textContent;
+    modeStates[currentMode].title = titleEl.textContent;
+    modeStates[currentMode].revealed = titleEl.classList.contains("revealed");
+    if (currentMode === "random") modeStates.random.locks = [...lockedSlots];
   }
-  document.getElementById("listM").innerHTML=hM;document.getElementById("listF").innerHTML=hF;
-  var act=getAct();document.getElementById("actCnt").textContent=act.length;document.getElementById("totCnt").textContent=names.length;btn.disabled=isSpin||act.length===0;
-}
 
-function buildReel(keep){
-  clearWin();
-  var act=getAct(),len=act.length;
-  if(len===0){order=[];reel.style.transition="none";reel.style.top="0px";reel.innerHTML='<div class="slot">---</div><div class="slot">---</div><div class="slot">対象なし</div><div class="slot">---</div><div class="slot">---</div>';return}
-  var prev=(keep&&order.length>0&&curIdx<order.length)?order[curIdx]:-1;
-  order=shuffle(act);
-  if(prev!==-1){var f=-1;for(var k=0;k<order.length;k++)if(order[k]===prev){f=k;break}curIdx=f!==-1?f:0}else curIdx=0;
-  var rep=len<10?Math.ceil(60/len):6,h="";
-  for(var r=0;r<rep;r++)for(var i=0;i<len;i++)h+='<div class="slot">'+names[order[i]]+'</div>';
-  reel.innerHTML=h;setPos(len+curIdx,false);
-}
+  function restoreModeFromMemory(mode) {
+    const st = modeStates[mode];
+    currentSlotPerks = [...st.perks];
+    categoryEl.textContent = st.category;
+    titleEl.textContent = st.title;
+    titleEl.classList.toggle("revealed", !!st.revealed);
 
-function setPos(s,a){reel.style.transition=a?"top 3.2s cubic-bezier(.15,.85,.25,1)":"none";reel.style.top=(-((s-2)*48))+"px"}
-function tog(i){if(!isSpin){flags[i]=!flags[i];save();renderList();buildReel(false)}}
-function setAll(s){if(!isSpin){for(var i=0;i<flags.length;i++)flags[i]=s;save();renderList();buildReel(false)}}
-function setGrp(sx,s){if(!isSpin){for(var i=0;i<names.length;i++)if(sexes[i]===sx)flags[i]=s;save();renderList();buildReel(false)}}
+    const loopCount = mode === "survivor" ? 1 : REEL_COUNT;
+    for (let i = 0; i < loopCount; i++) {
+      const strip = strips[i];
+      const val = currentSlotPerks[i] || "？？？";
+      const isWinner = val !== "？？？";
+      strip.innerHTML = "";
+      strip.appendChild(createPerkCell(getRandomDummyItem([val]), false));
+      strip.appendChild(createPerkCell(val, isWinner));
+      strip.appendChild(createPerkCell(getRandomDummyItem([val]), false));
+      strip.style.transition = "none";
+      strip.style.transform = "translateY(0px)";
+    }
 
-function spin(){
-  var act=getAct(),len=act.length;if(isSpin||len===0)return;
-  isSpin=true;btn.disabled=true;buildReel(true);
-  var st=len+curIdx;setPos(st,false);reel.offsetHeight;
-  var tp=Math.floor(Math.random()*len),wi=order[tp],lp=len<10?Math.ceil(20/len):2,df=(tp-curIdx+len)%len,endPos=st+(len*lp)+df;
-  setPos(endPos,true);
-  setTimeout(function(){
-    isSpin=false;curIdx=tp;
-    var slots=reel.getElementsByClassName("slot");
-    if(slots[endPos])slots[endPos].className="slot win";
-    reel.className="reel done";line.className="line hit";
-    if(document.getElementById("autoEx").checked){flags[wi]=false;save();renderList()}else btn.disabled=false;
-  },3250);
-}
+    if (mode === "random") {
+      lockedSlots = [...(st.locks || [false, false, false, false])];
+      lockBtns.forEach((btn, i) => {
+        const isL = !!lockedSlots[i];
+        btn.classList.toggle("locked", isL);
+        btn.textContent = isL ? "🔒 固定中" : "🔓 固定する";
+        reelCols[i].classList.toggle("locked", isL);
+      });
+    } else {
+      resetLocks();
+    }
+  }
+  function stripParentheses(text) { return text.replace(/[（(][^）)]*[）)]/g, "").trim(); }
 
-load();renderList();buildReel(false);
+  function copyTextWithToast(rawText) {
+    if (!rawText || rawText === "？？？") return;
+    const selection = window.getSelection().toString();
+    if (selection && selection.length > 0) return;
+    const cleanText = stripParentheses(rawText);
+    if (!cleanText) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(cleanText).then(() => showToast(`「${cleanText}」をコピーしました`));
+    } else {
+      const ta = document.createElement("textarea");
+      ta.value = cleanText;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      showToast(`「${cleanText}」をコピーしました`);
+    }
+  }
+
+  function showToast(msg) {
+    copyToast.textContent = msg;
+    copyToast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => copyToast.classList.remove("show"), 1800);
+  }
+
+  function resetLocks() {
+    lockedSlots = [false, false, false, false];
+    lockBtns.forEach((btn, i) => {
+      btn.classList.remove("locked");
+      btn.textContent = "🔓 固定する";
+      reelCols[i].classList.remove("locked");
+    });
+  }
+
+  lockBtns.forEach((btn, i) => {
+    btn.addEventListener("click", () => {
+      if (isSpinning || currentMode !== "random") return;
+      if (!lockedSlots[i] && currentSlotPerks[i] === "？？？") return;
+      lockedSlots[i] = !lockedSlots[i];
+      btn.classList.toggle("locked", lockedSlots[i]);
+      btn.textContent = lockedSlots[i] ? "🔒 固定中" : "🔓 固定する";
+      reelCols[i].classList.toggle("locked", lockedSlots[i]);
+      saveCurrentModeToMemory();
+      updateStatus();
+    });
+  });
+
+  function switchMode(newMode) {
+    if (isSpinning || currentMode === newMode) return;
+    saveCurrentModeToMemory();
+    currentMode = newMode;
+    modeTabs.forEach(tab => tab.classList.toggle("active", tab.dataset.mode === newMode));
+
+    const isPreset = newMode === "preset";
+    const isRandom = newMode === "random";
+    const isSurvivor = newMode === "survivor";
+
+    slotMachineEl.classList.toggle("random-mode", isRandom);
+    slotMachineEl.classList.toggle("survivor-mode", isSurvivor);
+    reelsContainerEl.classList.toggle("single-reel", isSurvivor);
+    reelCols.forEach((col, i) => col.classList.toggle("hidden", isSurvivor && i > 0));
+
+    presetExcludeWrap.classList.toggle("hidden", !isPreset);
+    presetFilterSection.classList.toggle("hidden", !isPreset);
+    randomExcludeWrap.classList.toggle("hidden", !isRandom);
+    randomFilterSection.classList.toggle("hidden", !isRandom);
+    survivorExcludeWrap.classList.toggle("hidden", !isSurvivor);
+    survivorFilterSection.classList.toggle("hidden", !isSurvivor);
+    lockBtns.forEach(btn => btn.classList.toggle("hidden", !isRandom));
+
+    restoreModeFromMemory(newMode);
+    updateStatus();
+  }
+
+  modeTabs.forEach(tab => tab.addEventListener("click", () => switchMode(tab.dataset.mode)));
+  function buildPresetFilterList() {
+    presetListContainer.innerHTML = "";
+    const grouped = {};
+    PRESET_BUILDS.forEach((build, idx) => {
+      if (!grouped[build.category]) grouped[build.category] = [];
+      grouped[build.category].push({ ...build, index: idx });
+    });
+
+    Object.entries(grouped).forEach(([catName, items]) => {
+      const groupDiv = document.createElement("div");
+      groupDiv.className = "category-group";
+      const header = document.createElement("div");
+      header.className = "category-header";
+      header.style.cursor = "default";
+      header.textContent = catName;
+      groupDiv.appendChild(header);
+
+      const grid = document.createElement("div");
+      grid.className = "preset-grid";
+
+      items.forEach(item => {
+        const label = document.createElement("label");
+        label.className = "preset-item";
+        const chk = document.createElement("input");
+        chk.type = "checkbox";
+        chk.checked = true;
+        chk.dataset.buildIndex = item.index;
+        chk.addEventListener("change", () => { label.classList.toggle("unchecked", !chk.checked); updateStatus(); });
+
+        const infoDiv = document.createElement("div");
+        infoDiv.className = "preset-item-info";
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "preset-item-name";
+        nameSpan.textContent = item.name;
+        const perksSpan = document.createElement("span");
+        perksSpan.className = "preset-item-perks";
+        perksSpan.textContent = item.perks.join(" / ");
+
+        infoDiv.appendChild(nameSpan);
+        infoDiv.appendChild(perksSpan);
+        label.appendChild(chk);
+        label.appendChild(infoDiv);
+        grid.appendChild(label);
+      });
+
+      groupDiv.appendChild(grid);
+      presetListContainer.appendChild(groupDiv);
+    });
+  }
+
+  function refreshAllCharCardStates() {
+    perkListContainer.querySelectorAll(".char-card").forEach(card => {
+      const chks = Array.from(card.querySelectorAll('input[type="checkbox"]'));
+      const checkedCount = chks.filter(c => c.checked).length;
+      const badge = card.querySelector(".char-count-badge");
+      if (badge) badge.textContent = `(${checkedCount}/${chks.length})`;
+      card.classList.toggle("all-off", checkedCount === 0);
+    });
+  }
+
+  function buildPerkFilterList() {
+    perkListContainer.innerHTML = "";
+    const renderedPerks = new Set();
+
+    CATEGORIZED_PERKS.forEach(group => {
+      const isShared = group.category === "【共有パーク】";
+      const cleanName = group.category.replace(/^【|】$/g, "");
+      const cardDiv = document.createElement("div");
+      cardDiv.className = isShared ? "char-card shared-card" : "char-card";
+
+      const headerRow = document.createElement("div");
+      headerRow.className = "category-header-row";
+      const header = document.createElement("div");
+      header.className = "category-header";
+      const arrowSpan = document.createElement("span");
+      arrowSpan.textContent = "▶";
+      const nameSpan = document.createElement("span");
+      nameSpan.textContent = cleanName;
+      const countBadge = document.createElement("span");
+      countBadge.className = "char-count-badge";
+
+      header.appendChild(arrowSpan);
+      header.appendChild(nameSpan);
+      header.appendChild(countBadge);
+
+      const grid = document.createElement("div");
+      grid.className = "perk-grid hidden";
+      header.addEventListener("click", () => { const isClosed = grid.classList.toggle("hidden"); arrowSpan.textContent = isClosed ? "▶" : "▼"; });
+
+      const toggleCharBtn = document.createElement("button");
+      toggleCharBtn.type = "button";
+      toggleCharBtn.className = "char-toggle-btn";
+      toggleCharBtn.textContent = "一括切替";
+      toggleCharBtn.addEventListener("click", () => {
+        const chks = cardDiv.querySelectorAll('input[type="checkbox"]');
+        const anyChecked = Array.from(chks).some(c => c.checked);
+        chks.forEach(c => { c.checked = !anyChecked; c.closest(".perk-item").classList.toggle("unchecked", !c.checked); });
+        updateStatus();
+      });
+
+      headerRow.appendChild(header);
+      headerRow.appendChild(toggleCharBtn);
+      cardDiv.appendChild(headerRow);
+
+      group.perks.forEach(perkName => {
+        if (isShared && renderedPerks.has(perkName)) return;
+        renderedPerks.add(perkName);
+        const label = document.createElement("label");
+        label.className = "perk-item";
+        label.title = perkName;
+        const chk = document.createElement("input");
+        chk.type = "checkbox";
+        chk.checked = true;
+        chk.dataset.perkName = perkName;
+        chk.addEventListener("change", () => { label.classList.toggle("unchecked", !chk.checked); updateStatus(); });
+        const span = document.createElement("span");
+        span.textContent = perkName;
+        label.appendChild(chk);
+        label.appendChild(span);
+        grid.appendChild(label);
+      });
+
+      cardDiv.appendChild(grid);
+      perkListContainer.appendChild(cardDiv);
+    });
+    refreshAllCharCardStates();
+  }
+
+  function buildSurvivorFilterList() {
+    survivorListContainer.innerHTML = "";
+    ALL_SURVIVORS.forEach(name => {
+      const label = document.createElement("label");
+      label.className = "survivor-item";
+      const chk = document.createElement("input");
+      chk.type = "checkbox";
+      chk.checked = true;
+      chk.dataset.survivorName = name;
+      chk.addEventListener("change", () => { label.classList.toggle("unchecked", !chk.checked); updateStatus(); });
+      const span = document.createElement("span");
+      span.textContent = name;
+      label.appendChild(chk);
+      label.appendChild(span);
+      survivorListContainer.appendChild(label);
+    });
+  }
+  function setupToggleAndBulk(toggleId, textId, bodyId, checkAllId, uncheckAllId, container, itemClass, closedLabel, openLabel) {
+    const toggleBtn = document.getElementById(toggleId);
+    const textEl = document.getElementById(textId);
+    const bodyEl = document.getElementById(bodyId);
+    toggleBtn.addEventListener("click", () => {
+      const isHidden = bodyEl.classList.toggle("hidden");
+      toggleBtn.firstElementChild.textContent = isHidden ? closedLabel : openLabel;
+      textEl.textContent = isHidden ? "開く" : "閉じる";
+    });
+    document.getElementById(checkAllId).addEventListener("click", () => {
+      container.querySelectorAll('input[type="checkbox"]').forEach(chk => { chk.checked = true; chk.closest(itemClass).classList.remove("unchecked"); });
+      updateStatus();
+    });
+    document.getElementById(uncheckAllId).addEventListener("click", () => {
+      container.querySelectorAll('input[type="checkbox"]').forEach(chk => { chk.checked = false; chk.closest(itemClass).classList.add("unchecked"); });
+      updateStatus();
+    });
+  }
+
+  setupToggleAndBulk("preset-toggle-btn", "preset-toggle-text", "preset-filter-body", "preset-check-all", "preset-uncheck-all", presetListContainer, ".preset-item", "▶ 抽選対象の構成を個別にオン・オフ設定", "▼ 抽選対象の構成を個別にオン・オフ設定");
+  setupToggleAndBulk("random-toggle-btn", "random-toggle-text", "random-filter-body", "random-check-all", "random-uncheck-all", perkListContainer, ".perk-item", "▶ 抽選対象のパークをサバイバー・共有別にオン・オフ設定", "▼ 抽選対象のパークをサバイバー・共有別にオン・オフ設定");
+  setupToggleAndBulk("survivor-toggle-btn", "survivor-toggle-text", "survivor-filter-body", "survivor-check-all", "survivor-uncheck-all", survivorListContainer, ".survivor-item", "▶ 抽選対象のサバイバーを個別にオン・オフ設定", "▼ 抽選対象のサバイバーを個別にオン・オフ設定");
+
+  document.getElementById("random-expand-all").addEventListener("click", () => {
+    perkListContainer.querySelectorAll(".char-card").forEach(card => {
+      const grid = card.querySelector(".perk-grid");
+      const arrow = card.querySelector(".category-header span:first-child");
+      if (grid) grid.classList.remove("hidden");
+      if (arrow) arrow.textContent = "▼";
+    });
+  });
+
+  document.getElementById("random-collapse-all").addEventListener("click", () => {
+    perkListContainer.querySelectorAll(".char-card").forEach(card => {
+      const grid = card.querySelector(".perk-grid");
+      const arrow = card.querySelector(".category-header span:first-child");
+      if (grid) grid.classList.add("hidden");
+      if (arrow) arrow.textContent = "▶";
+    });
+  });
+
+  function getActivePresetIndices() { return Array.from(presetListContainer.querySelectorAll('input[type="checkbox"]:checked')).map(c => Number(c.dataset.buildIndex)); }
+  function getActivePerks() { return Array.from(perkListContainer.querySelectorAll('input[type="checkbox"]:checked')).map(c => c.dataset.perkName); }
+  function getActiveSurvivors() { return Array.from(survivorListContainer.querySelectorAll('input[type="checkbox"]:checked')).map(c => c.dataset.survivorName); }
+
+  function updateStatus() {
+    if (currentMode === "preset") {
+      const active = getActivePresetIndices();
+      statusBar.textContent = `抽選対象：${active.length} / ${PRESET_BUILDS.length} 構成`;
+      if (!isSpinning) spinBtn.disabled = active.length === 0;
+    } else if (currentMode === "random") {
+      refreshAllCharCardStates();
+      const activePerks = getActivePerks();
+      const lockedPerks = lockedSlots.map((isL, i) => isL ? currentSlotPerks[i] : null).filter(Boolean);
+      const unlockedCount = lockedSlots.filter(isL => !isL).length;
+      const availableForSpin = activePerks.filter(p => !lockedPerks.includes(p));
+      statusBar.textContent = `抽選対象：${activePerks.length} / ${UNIQUE_ALL_PERKS.length} パーク（固定中：${lockedPerks.length}枠）`;
+      if (!isSpinning) spinBtn.disabled = unlockedCount === 0 || availableForSpin.length < unlockedCount;
+    } else {
+      const activeSurv = getActiveSurvivors();
+      statusBar.textContent = `抽選対象：${activeSurv.length} / ${ALL_SURVIVORS.length} 人`;
+      if (!isSpinning) spinBtn.disabled = activeSurv.length === 0;
+    }
+  }
+  function getRandomDummyItem(excludeList = []) {
+    let pool = PRESET_PERK_POOL;
+    if (currentMode === "random") pool = UNIQUE_ALL_PERKS;
+    else if (currentMode === "survivor") pool = ALL_SURVIVORS;
+    const candidates = pool.filter(p => !excludeList.includes(p));
+    return candidates[Math.floor(Math.random() * candidates.length)];
+  }
+
+  function createPerkCell(text, isWinner = false) {
+    const cell = document.createElement("div");
+    cell.className = isWinner ? "perk-cell winner" : "perk-cell";
+    cell.textContent = text;
+    if (isWinner) {
+      cell.dataset.isWinner = "true";
+      cell.title = "クリックでコピー";
+      cell.addEventListener("click", () => copyTextWithToast(text));
+    }
+    return cell;
+  }
+
+  function initReels() {
+    currentSlotPerks = ["？？？", "？？？", "？？？", "？？？"];
+    const targetStrips = currentMode === "survivor" ? strips.slice(0, 1) : strips;
+    targetStrips.forEach(strip => {
+      strip.innerHTML = "";
+      for (let i = 0; i < 3; i++) {
+        const text = i === 1 ? "？？？" : getRandomDummyItem();
+        strip.appendChild(createPerkCell(text, false));
+      }
+      strip.style.transition = "none";
+      strip.style.transform = "translateY(0px)";
+    });
+  }
+
+  function pickPreset() {
+    const activeIndices = getActivePresetIndices();
+    if (activeIndices.length === 0) return null;
+    const candidates = activeIndices.length > 1 ? activeIndices.filter(idx => idx !== lastSelectedIndex) : activeIndices;
+    const chosenIndex = candidates[Math.floor(Math.random() * candidates.length)];
+    lastSelectedIndex = chosenIndex;
+    return { build: PRESET_BUILDS[chosenIndex], index: chosenIndex };
+  }
+
+  function pickRandomPerksWithLocks() {
+    const activePerks = getActivePerks();
+    const result = [...currentSlotPerks];
+    const used = [];
+    lockedSlots.forEach((isLocked, i) => { if (isLocked) used.push(result[i]); });
+    for (let i = 0; i < REEL_COUNT; i++) {
+      if (!lockedSlots[i]) {
+        const candidates = activePerks.filter(p => !used.includes(p));
+        if (candidates.length === 0) return null;
+        const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+        result[i] = chosen;
+        used.push(chosen);
+      }
+    }
+    return result;
+  }
+
+  function pickRandomSurvivor() {
+    const activeSurv = getActiveSurvivors();
+    if (activeSurv.length === 0) return null;
+    const candidates = activeSurv.length > 1 ? activeSurv.filter(name => name !== lastSelectedSurvivor) : activeSurv;
+    const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+    lastSelectedSurvivor = chosen;
+    return chosen;
+  }
+
+  function setControlsDisabled(disabled) {
+    spinBtn.disabled = disabled;
+    resetDisplayBtn.disabled = disabled;
+    modeTabs.forEach(tab => tab.disabled = disabled);
+    lockBtns.forEach(btn => btn.disabled = disabled);
+  }
+  function spin() {
+    let winners = [];
+    let pickedPreset = null;
+    let pickedSurvivor = null;
+
+    if (currentMode === "preset") {
+      pickedPreset = pickPreset();
+      if (!pickedPreset) return;
+      winners = pickedPreset.build.perks;
+      categoryEl.textContent = "【構成を抽選中...】";
+    } else if (currentMode === "random") {
+      winners = pickRandomPerksWithLocks();
+      if (!winners) return;
+      categoryEl.textContent = "【パークをランダム抽選中...】";
+    } else {
+      pickedSurvivor = pickRandomSurvivor();
+      if (!pickedSurvivor) return;
+      winners = [pickedSurvivor];
+      categoryEl.textContent = "【サバイバーをランダム抽選中...】";
+    }
+
+    isSpinning = true;
+    setControlsDisabled(true);
+    titleEl.classList.remove("revealed");
+    titleEl.textContent = "？？？";
+    currentSlotPerks = [...winners];
+
+    const activeReelIndices = [];
+    const loopCount = currentMode === "survivor" ? 1 : REEL_COUNT;
+    for (let i = 0; i < loopCount; i++) {
+      if (!(currentMode === "random" && lockedSlots[i])) activeReelIndices.push(i);
+    }
+    const lastSpinIndex = activeReelIndices[activeReelIndices.length - 1];
+
+    activeReelIndices.forEach(index => {
+      const strip = strips[index];
+      const currentNames = Array.from(strip.children).slice(0, 3).map(c => c.textContent);
+      const dummyCount = 24 + index * 10;
+      const newOrder = [getRandomDummyItem([winners[index]]), winners[index], getRandomDummyItem([winners[index]])];
+      for (let i = 0; i < dummyCount; i++) newOrder.push(getRandomDummyItem());
+      newOrder.push(...currentNames);
+
+      strip.innerHTML = "";
+      newOrder.forEach((name, idx) => {
+        const cell = createPerkCell(name, false);
+        if (idx === 1) cell.dataset.isWinner = "true";
+        strip.appendChild(cell);
+      });
+
+      const startY = -(newOrder.length - 3) * CELL_HEIGHT;
+      strip.style.transition = "none";
+      strip.style.transform = `translateY(${startY}px)`;
+      strip.getBoundingClientRect();
+
+      const duration = currentMode === "survivor" ? 2.0 : (1.6 + index * 0.45);
+      strip.style.transition = `transform ${duration}s cubic-bezier(0.12, 0.85, 0.22, 1)`;
+      strip.style.transform = "translateY(0px)";
+
+      strip.ontransitionend = () => {
+        const winnerCell = strip.querySelector('[data-is-winner="true"]');
+        if (winnerCell) {
+          winnerCell.classList.add("winner");
+          winnerCell.title = "クリックでコピー";
+          winnerCell.addEventListener("click", () => copyTextWithToast(winnerCell.textContent));
+        }
+
+        if (index === lastSpinIndex) {
+          if (currentMode === "preset") {
+            categoryEl.textContent = pickedPreset.build.category;
+            titleEl.textContent = `■ ${pickedPreset.build.name}`;
+            if (presetAutoExclude.checked) {
+              const targetChk = presetListContainer.querySelector(`input[data-build-index="${pickedPreset.index}"]`);
+              if (targetChk) { targetChk.checked = false; targetChk.closest(".preset-item").classList.add("unchecked"); }
+            }
+          } else if (currentMode === "random") {
+            categoryEl.textContent = "【全パーク完全ランダムモード】";
+            titleEl.textContent = "■ ランダム構成 決定！";
+            if (randomAutoExclude.checked) {
+              winners.forEach((perkName, slotIdx) => {
+                if (!lockedSlots[slotIdx]) {
+                  const targetChk = perkListContainer.querySelector(`input[data-perk-name="${perkName}"]`);
+                  if (targetChk) { targetChk.checked = false; targetChk.closest(".perk-item").classList.add("unchecked"); }
+                }
+              });
+            }
+          } else {
+            categoryEl.textContent = "【サバイバーランダム抽選モード】";
+            titleEl.textContent = `■ ${pickedSurvivor}`;
+            if (survivorAutoExclude.checked) {
+              const targetChk = survivorListContainer.querySelector(`input[data-survivor-name="${pickedSurvivor}"]`);
+              if (targetChk) { targetChk.checked = false; targetChk.closest(".survivor-item").classList.add("unchecked"); }
+            }
+          }
+          titleEl.classList.add("revealed");
+          isSpinning = false;
+          setControlsDisabled(false);
+          saveCurrentModeToMemory();
+          saveState();
+          updateStatus();
+        }
+      };
+    });
+  }
+
+  spinBtn.addEventListener("click", spin);
+
+  resetDisplayBtn.addEventListener("click", () => {
+    if (isSpinning) return;
+    resetLocks();
+    titleEl.classList.remove("revealed");
+    titleEl.textContent = "？？？";
+    if (currentMode === "preset") categoryEl.textContent = "【プリセット構成モード】";
+    else if (currentMode === "random") categoryEl.textContent = "【全パーク完全ランダムモード】";
+    else categoryEl.textContent = "【サバイバーランダム抽選モード】";
+    initReels();
+    saveCurrentModeToMemory();
+    saveState();
+    updateStatus();
+  });
+  const STORAGE_KEY = "dbd_gacha_save_v2";
+
+  function saveState() {
+    if (!isSpinning) saveCurrentModeToMemory();
+    const uncheckedPresets = [];
+    presetListContainer.querySelectorAll('input[type="checkbox"]').forEach(chk => { if (!chk.checked) uncheckedPresets.push(Number(chk.dataset.buildIndex)); });
+    const uncheckedPerks = [];
+    perkListContainer.querySelectorAll('input[type="checkbox"]').forEach(chk => { if (!chk.checked) uncheckedPerks.push(chk.dataset.perkName); });
+    const uncheckedSurvivors = [];
+    survivorListContainer.querySelectorAll('input[type="checkbox"]').forEach(chk => { if (!chk.checked) uncheckedSurvivors.push(chk.dataset.survivorName); });
+
+    const data = {
+      currentMode,
+      presetAutoExclude: presetAutoExclude.checked,
+      randomAutoExclude: randomAutoExclude.checked,
+      survivorAutoExclude: survivorAutoExclude.checked,
+      uncheckedPresets,
+      uncheckedPerks,
+      uncheckedSurvivors,
+      modeStates
+    };
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) {}
+  }
+
+  function loadState() {
+    let raw = null;
+    try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) { return false; }
+    if (!raw) return false;
+
+    try {
+      const data = JSON.parse(raw);
+      presetAutoExclude.checked = !!data.presetAutoExclude;
+      randomAutoExclude.checked = !!data.randomAutoExclude;
+      survivorAutoExclude.checked = !!data.survivorAutoExclude;
+
+      if (Array.isArray(data.uncheckedPresets)) {
+        const offSet = new Set(data.uncheckedPresets);
+        presetListContainer.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+          const isOff = offSet.has(Number(chk.dataset.buildIndex));
+          chk.checked = !isOff;
+          chk.closest(".preset-item").classList.toggle("unchecked", isOff);
+        });
+      }
+      if (Array.isArray(data.uncheckedPerks)) {
+        const offSet = new Set(data.uncheckedPerks);
+        perkListContainer.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+          const isOff = offSet.has(chk.dataset.perkName);
+          chk.checked = !isOff;
+          chk.closest(".perk-item").classList.toggle("unchecked", isOff);
+        });
+      }
+      if (Array.isArray(data.uncheckedSurvivors)) {
+        const offSet = new Set(data.uncheckedSurvivors);
+        survivorListContainer.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+          const isOff = offSet.has(chk.dataset.survivorName);
+          chk.checked = !isOff;
+          chk.closest(".survivor-item").classList.toggle("unchecked", isOff);
+        });
+      }
+      if (data.modeStates) {
+        ["preset", "random", "survivor"].forEach(m => { if (data.modeStates[m]) modeStates[m] = { ...modeStates[m], ...data.modeStates[m] }; });
+      }
+
+      const targetMode = (data.currentMode && ["preset", "random", "survivor"].includes(data.currentMode)) ? data.currentMode : "preset";
+      currentMode = targetMode;
+      modeTabs.forEach(tab => tab.classList.toggle("active", tab.dataset.mode === targetMode));
+
+      const isPreset = targetMode === "preset", isRandom = targetMode === "random", isSurvivor = targetMode === "survivor";
+      slotMachineEl.classList.toggle("random-mode", isRandom);
+      slotMachineEl.classList.toggle("survivor-mode", isSurvivor);
+      reelsContainerEl.classList.toggle("single-reel", isSurvivor);
+      reelCols.forEach((col, i) => col.classList.toggle("hidden", isSurvivor && i > 0));
+
+      presetExcludeWrap.classList.toggle("hidden", !isPreset);
+      presetFilterSection.classList.toggle("hidden", !isPreset);
+      randomExcludeWrap.classList.toggle("hidden", !isRandom);
+      randomFilterSection.classList.toggle("hidden", !isRandom);
+      survivorExcludeWrap.classList.toggle("hidden", !isSurvivor);
+      survivorFilterSection.classList.toggle("hidden", !isSurvivor);
+      lockBtns.forEach(btn => btn.classList.toggle("hidden", !isRandom));
+
+      restoreModeFromMemory(targetMode);
+      return true;
+    } catch (e) { return false; }
+  }
+
+  [presetListContainer, perkListContainer, survivorListContainer].forEach(c => c.addEventListener("change", saveState));
+  [presetAutoExclude, randomAutoExclude, survivorAutoExclude].forEach(c => c.addEventListener("change", saveState));
+  modeTabs.forEach(t => t.addEventListener("click", saveState));
+  lockBtns.forEach(b => b.addEventListener("click", saveState));
+  document.addEventListener("click", e => { if (e.target.matches(".sub-btn, .char-toggle-btn")) saveState(); });
+  setInterval(() => { if (!isSpinning) saveState(); }, 2000);
+
+  buildPresetFilterList();
+  buildPerkFilterList();
+  buildSurvivorFilterList();
+  if (!loadState()) initReels();
+  updateStatus();
 </script>
 </body>
 </html>
